@@ -1,0 +1,7 @@
+{
+  "ERC721_Reentrancy": 1.0,
+  "Missing_Requirements": 1.0,
+  "Public_Burn": 1.0,
+  "Risky_Mutable_Proxy": 1.0,
+  "Unlimited_Minting": 1.0
+}

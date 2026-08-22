@@ -1,0 +1,13 @@
+model,features,macro_f1,weighted_f1,precision,recall,f1_std
+Logistic Regression,Hand-crafted,1.0,1.0,1.0,1.0,0.0
+SVM (Linear),Hand-crafted,1.0,1.0,1.0,1.0,0.0
+Random Forest,Hand-crafted,1.0,1.0,1.0,1.0,0.0
+XGBoost,Hand-crafted,1.0,1.0,1.0,1.0,0.0
+Logistic Regression,TF-IDF,1.0,1.0,1.0,1.0,0.0
+SVM (Linear),TF-IDF,1.0,1.0,1.0,1.0,0.0
+Random Forest,TF-IDF,1.0,1.0,1.0,1.0,0.0
+XGBoost,TF-IDF,1.0,1.0,1.0,1.0,0.0
+Logistic Regression,HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
+SVM (Linear),HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
+Random Forest,HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
+XGBoost,HC + TF-IDF,1.0,1.0,1.0,1.0,0.0

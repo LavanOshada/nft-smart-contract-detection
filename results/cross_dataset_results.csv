@@ -1,0 +1,5 @@
+model,macro_f1,weighted_f1,precision,recall
+Logistic Regression,0.1752,0.8789,0.1672,0.2129
+SVM (Linear),0.0014,0.004,0.167,0.167
+Random Forest,0.1518,0.851,0.1558,0.1481
+XGBoost,0.0842,0.415,0.1618,0.1408

@@ -1,0 +1,7 @@
+Class,Logistic Regression,Random Forest,SVM (Linear),XGBoost
+ERC721_Reentrancy,0.0,0.0238,0.0,0.0
+Missing_Requirements,0.1111,0.0,0.0,0.0
+None,0.9393,0.8383,0.0043,0.0085
+Public_Burn,0.0,0.0,0.0,0.0
+Risky_Mutable_Proxy,0.0,0.0,0.0043,0.0048
+Unlimited_Minting,0.0,0.0,0.0,0.0
