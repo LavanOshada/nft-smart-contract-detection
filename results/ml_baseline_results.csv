@@ -1,13 +1,3 @@
-model,features,macro_f1,weighted_f1,precision,recall,f1_std
-Logistic Regression,Hand-crafted,1.0,1.0,1.0,1.0,0.0
-SVM (Linear),Hand-crafted,1.0,1.0,1.0,1.0,0.0
-Random Forest,Hand-crafted,1.0,1.0,1.0,1.0,0.0
-XGBoost,Hand-crafted,1.0,1.0,1.0,1.0,0.0
-Logistic Regression,TF-IDF,1.0,1.0,1.0,1.0,0.0
-SVM (Linear),TF-IDF,1.0,1.0,1.0,1.0,0.0
-Random Forest,TF-IDF,1.0,1.0,1.0,1.0,0.0
-XGBoost,TF-IDF,1.0,1.0,1.0,1.0,0.0
-Logistic Regression,HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
-SVM (Linear),HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
-Random Forest,HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
-XGBoost,HC + TF-IDF,1.0,1.0,1.0,1.0,0.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:b70653c61fa8f2430e6020cedc83787f4c5edf6c0017390c249677184ea9e962
+size 593
