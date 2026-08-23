@@ -1,0 +1,15 @@
+{
+  "model": "gemini-1.5-flash",
+  "static": true,
+  "n_contracts": 3000,
+  "macro_f1": 0.11906292407685165,
+  "weighted_f1": 0.3969557888722234,
+  "macro_prec": 0.0926111111111111,
+  "macro_rec": 0.16666666666666666,
+  "f1_ERC721_Reentrancy": 0.0,
+  "f1_Unlimited_Minting": 0.0,
+  "f1_Missing_Requirements": 0.0,
+  "f1_Public_Burn": 0.0,
+  "f1_Risky_Mutable_Proxy": 0.0,
+  "f1_None": 0.7143775444611099
+}
