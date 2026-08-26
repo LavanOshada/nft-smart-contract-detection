@@ -1,0 +1,16 @@
+{
+  "model": "deepseek/deepseek-chat",
+  "method": "NFT-GPTScan",
+  "static": true,
+  "n_contracts": 400,
+  "macro_f1": 0.26768659923325955,
+  "weighted_f1": 0.36836574478721745,
+  "macro_prec": 0.2621289004580052,
+  "macro_rec": 0.28209412270850404,
+  "f1_ERC721_Reentrancy": 0.0,
+  "f1_Unlimited_Minting": 0.2981366459627329,
+  "f1_Missing_Requirements": 0.2891566265060241,
+  "f1_Public_Burn": 0.5074626865671642,
+  "f1_Risky_Mutable_Proxy": 0.0,
+  "f1_None": 0.5113636363636364
+}
