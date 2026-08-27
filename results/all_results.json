@@ -11,14 +11,34 @@
       "macro_prec": 0.24581118392561538,
       "macro_rec": 0.26652558816911903,
       "per_class": {
-        "ERC721_Reentrancy":    { "f1": 0.0,                    "precision": null, "recall": null, "support": 44  },
-        "Unlimited_Minting":    { "f1": 0.12727272727272726,     "precision": null, "recall": null, "support": 62  },
-        "Missing_Requirements": { "f1": 0.33620689655172414,     "precision": null, "recall": null, "support": 73  },
-        "Public_Burn":          { "f1": 0.5294117647058824,      "precision": null, "recall": null, "support": 37  },
-        "Risky_Mutable_Proxy":  { "f1": 0.0,                    "precision": null, "recall": null, "support": 10  },
-        "None":                 { "f1": 0.4835820895522388,      "precision": null, "recall": null, "support": 174 }
+        "ERC721_Reentrancy":    { "f1": 0.000, "precision": null, "recall": null, "support": 44  },
+        "Unlimited_Minting":    { "f1": 0.127, "precision": null, "recall": null, "support": 62  },
+        "Missing_Requirements": { "f1": 0.336, "precision": null, "recall": null, "support": 73  },
+        "Public_Burn":          { "f1": 0.529, "precision": null, "recall": null, "support": 37  },
+        "Risky_Mutable_Proxy":  { "f1": 0.000, "precision": null, "recall": null, "support": 10  },
+        "None":                 { "f1": 0.484, "precision": null, "recall": null, "support": 174 }
       },
-      "notes": "GPTScan adapted for NFT vulnerabilities. 4-phase pipeline. Best performing system so far."
+      "notes": "GPTScan adapted for NFT vulnerabilities. 4-phase independent pipeline. Zero-shot. ~16 API calls/contract. Results in results/gptscan_gpt4omini_results.csv."
+    },
+    {
+      "method": "NFT-GPTScan",
+      "model": "deepseek/deepseek-chat",
+      "model_label": "DeepSeek-V3",
+      "static": true,
+      "n_contracts": 400,
+      "macro_f1": 0.26768659923325955,
+      "weighted_f1": 0.36836574478721745,
+      "macro_prec": 0.2621289004580052,
+      "macro_rec": 0.28209412270850404,
+      "per_class": {
+        "ERC721_Reentrancy":    { "f1": 0.000,                 "precision": null, "recall": null, "support": 44  },
+        "Unlimited_Minting":    { "f1": 0.2981366459627329,    "precision": null, "recall": null, "support": 62  },
+        "Missing_Requirements": { "f1": 0.2891566265060241,    "precision": null, "recall": null, "support": 73  },
+        "Public_Burn":          { "f1": 0.5074626865671642,    "precision": null, "recall": null, "support": 37  },
+        "Risky_Mutable_Proxy":  { "f1": 0.000,                 "precision": null, "recall": null, "support": 10  },
+        "None":                 { "f1": 0.5113636363636364,    "precision": null, "recall": null, "support": 174 }
+      },
+      "notes": "GPTScan with DeepSeek-V3 via OpenRouter. Best macro F1 overall. Results backed up in results/gptscan_deepseek_summary.json."
     },
     {
       "method": "NFT-Scan",
@@ -32,14 +52,14 @@
       "macro_prec": 0.16884679893569896,
       "macro_rec": 0.12458907951235805,
       "per_class": {
-        "ERC721_Reentrancy":    { "f1": 0.1791044776119403,      "precision": null, "recall": null, "support": 44  },
-        "Unlimited_Minting":    { "f1": 0.061855670103092786,    "precision": null, "recall": null, "support": 62  },
-        "Missing_Requirements": { "f1": 0.02666666666666667,     "precision": null, "recall": null, "support": 73  },
-        "Public_Burn":          { "f1": 0.017699115044247787,    "precision": null, "recall": null, "support": 37  },
-        "Risky_Mutable_Proxy":  { "f1": 0.0,                    "precision": null, "recall": null, "support": 10  },
-        "None":                 { "f1": 0.36123348017621143,     "precision": null, "recall": null, "support": 174 }
+        "ERC721_Reentrancy":    { "f1": 0.179, "precision": null, "recall": null, "support": 44  },
+        "Unlimited_Minting":    { "f1": 0.062, "precision": null, "recall": null, "support": 62  },
+        "Missing_Requirements": { "f1": 0.027, "precision": null, "recall": null, "support": 73  },
+        "Public_Burn":          { "f1": 0.018, "precision": null, "recall": null, "support": 37  },
+        "Risky_Mutable_Proxy":  { "f1": 0.000, "precision": null, "recall": null, "support": 10  },
+        "None":                 { "f1": 0.361, "precision": null, "recall": null, "support": 174 }
       },
-      "notes": "5-step NFT-specific pipeline. nftscan_summary.json was later overwritten by DeepSeek run. Raw predictions preserved in nftscan_results.csv."
+      "notes": "5-step NFT-specific pipeline. Few-shot at Step 3. ~69 API calls/contract causes severe error propagation. Results in results/nftscan_results.csv."
     },
     {
       "method": "NFT-Scan",
@@ -63,11 +83,107 @@
         "Risky_Mutable_Proxy":  { "f1": 0.000, "precision": 0.000, "recall": 0.000, "support": 10  },
         "None":                 { "f1": 0.436, "precision": 0.594, "recall": 0.345, "support": 174 }
       },
-      "notes": "Same 5-step pipeline as NFT-Scan gpt-4o-mini but with DeepSeek-V3 via OpenRouter. +71% macro F1 over gpt-4o-mini variant. Results saved in nftscan_deepseek_results.csv and nftscan_summary.json (current)."
+      "notes": "Same 5-step pipeline as NFT-Scan gpt-4o-mini but with DeepSeek-V3 via OpenRouter. +71% macro F1 over gpt-4o-mini variant. Results in results/nftscan_deepseek_results.csv."
+    },
+    {
+      "method": "NFT-AugScan-v2",
+      "model": "deepseek/deepseek-chat",
+      "model_label": "DeepSeek-V3 + Slither Oracle",
+      "static": true,
+      "n_contracts": 400,
+      "api_calls": 3128,
+      "slither_errors": 15,
+      "reentrancy_fired": 206,
+      "elapsed_minutes": 317.8,
+      "macro_f1": 0.1978,
+      "weighted_f1": 0.2399,
+      "accuracy": 0.26,
+      "per_class": {
+        "ERC721_Reentrancy":    { "f1": 0.301, "precision": 0.177, "recall": 1.000, "support": 44  },
+        "Unlimited_Minting":    { "f1": 0.091, "precision": 0.154, "recall": 0.065, "support": 62  },
+        "Missing_Requirements": { "f1": 0.281, "precision": 0.354, "recall": 0.233, "support": 73  },
+        "Public_Burn":          { "f1": 0.000, "precision": 0.000, "recall": 0.000, "support": 37  },
+        "Risky_Mutable_Proxy":  { "f1": 0.200, "precision": 0.200, "recall": 0.200, "support": 10  },
+        "None":                 { "f1": 0.314, "precision": 0.597, "recall": 0.213, "support": 174 }
+      },
+      "status": "complete",
+      "notes": "Slither oracle feeds ALL detector findings as structured expert report to every LLM phase (~7.8 API calls/contract vs 69 for NFT-Scan). Key results: ERC721_Reentrancy recall=1.000 (perfect) but precision=0.177 — LLM defers too heavily to Slither's reentrancy signal (206/400 flagged, only 44 true). First method to detect Risky_Mutable_Proxy (F1=0.200; all others=0.000). Public_Burn=0.000 — Slither has no access-control signal for burn functions. Results in results/augscan_v2_results.csv."
+    },
+    {
+      "method": "NFT-Scan++",
+      "model": "deepseek/deepseek-chat",
+      "model_label": "DeepSeek-V3 + Slither",
+      "static": true,
+      "n_contracts": 400,
+      "macro_f1": null,
+      "status": "PENDING — requires Slither + solc installation",
+      "notes": "Hybrid pipeline: Slither pre-analysis (Step 0) + NFT-Scan steps + three-tier ensemble. Script: pipeline/nft_scan_pp.py."
+    },
+    {
+      "method": "Slither-only",
+      "model": "none",
+      "model_label": "Static analysis only",
+      "static": true,
+      "n_contracts": 400,
+      "slither_errors": 15,
+      "reentrancy_flagged": 206,
+      "elapsed_minutes": 17.1,
+      "macro_f1": 0.1339,
+      "weighted_f1": null,
+      "macro_prec": null,
+      "macro_rec": null,
+      "per_class": {
+        "ERC721_Reentrancy":    { "f1": 0.336, "precision": 0.204, "recall": 0.955, "support": 44  },
+        "Unlimited_Minting":    { "f1": 0.000, "precision": 0.000, "recall": 0.000, "support": 62  },
+        "Missing_Requirements": { "f1": 0.000, "precision": 0.000, "recall": 0.000, "support": 73  },
+        "Public_Burn":          { "f1": 0.000, "precision": 0.000, "recall": 0.000, "support": 37  },
+        "Risky_Mutable_Proxy":  { "f1": 0.000, "precision": 0.000, "recall": 0.000, "support": 10  },
+        "None":                 { "f1": 0.467, "precision": null,  "recall": null,  "support": 174 }
+      },
+      "status": "complete",
+      "notes": "Script: pipeline/slither_ablation.py. Key finding: Slither achieves 95.5% recall on ERC721_Reentrancy but only 20.4% precision — flags 206/400 contracts as reentrancy (only 44 truly are). Zero detection on all NFT-specific classes (Unlimited_Minting, Missing_Requirements, Public_Burn, Risky_Mutable_Proxy). Confirms static analysis alone cannot replace LLM-based detection. Slither's high-recall reentrancy signal is ideal for LLM-filtered hybrid (NFT-AugScan / NFT-Scan++) where LLM resolves false positives."
     }
+  ],
+  "summary_table": {
+    "description": "Macro F1 comparison — all completed experiments, best to worst",
+    "rows": [
+      { "rank": 1, "method": "NFT-GPTScan",    "model": "DeepSeek-V3",              "macro_f1": 0.2677, "weighted_f1": 0.3684, "status": "complete" },
+      { "rank": 2, "method": "NFT-GPTScan",    "model": "gpt-4o-mini",              "macro_f1": 0.2461, "weighted_f1": 0.3404, "status": "complete" },
+      { "rank": 3, "method": "NFT-AugScan-v2", "model": "DeepSeek-V3+Slither",     "macro_f1": 0.1978, "weighted_f1": 0.2399, "status": "complete" },
+      { "rank": 4, "method": "NFT-Scan",       "model": "DeepSeek-V3",              "macro_f1": 0.1852, "weighted_f1": 0.2824, "status": "complete" },
+      { "rank": 5, "method": "Slither-only",   "model": "none",                     "macro_f1": 0.1339, "weighted_f1": null,   "status": "complete" },
+      { "rank": 6, "method": "NFT-Scan",       "model": "gpt-4o-mini",              "macro_f1": 0.1078, "weighted_f1": 0.1929, "status": "complete" },
+      { "rank": 7, "method": "NFT-Scan++",     "model": "DeepSeek-V3 + Slither",   "macro_f1": null,   "weighted_f1": null,   "status": "pending"  }
+    ]
+  },
+  "per_class_f1_comparison": {
+    "description": "Per-class F1 for all completed experiments",
+    "classes": ["ERC721_Reentrancy", "Unlimited_Minting", "Missing_Requirements", "Public_Burn", "Risky_Mutable_Proxy", "None"],
+    "support":  [44, 62, 73, 37, 10, 174],
+    "results": {
+      "GPTScan_DeepSeek":    [0.000, 0.298, 0.289, 0.507, 0.000, 0.511],
+      "GPTScan_gpt4omini":   [0.000, 0.127, 0.336, 0.529, 0.000, 0.484],
+      "AugScan_v2_DeepSeek": [0.301, 0.091, 0.281, 0.000, 0.200, 0.314],
+      "NFTScan_DeepSeek":    [0.157, 0.211, 0.157, 0.150, 0.000, 0.436],
+      "NFTScan_gpt4omini":   [0.179, 0.062, 0.027, 0.018, 0.000, 0.361],
+      "Slither_only":        [0.336, 0.000, 0.000, 0.000, 0.000, 0.467]
+    }
+  },
+  "key_findings": [
+    "NFT-GPTScan (DeepSeek-V3) achieves best overall macro F1=0.2677 — independent phases avoid error propagation from multi-step pipelines",
+    "NFT-AugScan-v2 (Slither Oracle) ranks 3rd at macro F1=0.1978, outperforming NFT-Scan DeepSeek (0.1852) with far fewer API calls (~7.8 vs 69/contract)",
+    "NFT-AugScan-v2 is the ONLY method to detect Risky_Mutable_Proxy (F1=0.200 vs 0.000 for all others) — Slither's proxy detectors provide signal unavailable to pure-LLM approaches",
+    "NFT-AugScan-v2 achieves perfect recall=1.000 on ERC721_Reentrancy but precision=0.177 — LLM over-defers to Slither's reentrancy signal (206/400 flagged, only 44 true), suppressing Public_Burn and other classes",
+    "ERC721_Reentrancy blind spot: GPTScan scores F1=0.000 (LLMs cannot detect callback-based reentrancy without static signal); Slither oracle fixes recall but introduces precision problem",
+    "Public_Burn=0.000 across all hybrid methods — Slither has no access-control signal for burn functions; requires dedicated burn-pattern detector or few-shot examples",
+    "DeepSeek-V3 consistently outperforms gpt-4o-mini: +8.8% on GPTScan, +71% on NFT-Scan",
+    "Slither ablation (novel contribution): NFTDefects paper tested 6 static tools but NOT Slither. Our ablation shows Slither achieves 95.5% recall but 20.4% precision on reentrancy — flags 206/400 contracts. Zero detection on all NFT-specific classes.",
+    "Complementary blind spots across methods: GPTScan excels at NFT-specific classes (Public_Burn F1=0.507) but misses reentrancy (0.000); AugScan-v2 detects reentrancy perfectly but struggles with Public_Burn (0.000) and Unlimited_Minting (0.091)",
+    "API efficiency: NFT-AugScan-v2 uses ~7.8 calls/contract vs 69 for NFT-Scan (8.8x reduction) while achieving +6.8% higher macro F1"
   ],
   "dataset": {
     "name": "NFTDefects benchmark (stratified sample)",
+    "source_paper": "NFTDefects: An Empirical Study of Smart Contract Code Quality Issues in the NFT Ecosystem (ISSTA 2023)",
     "file": "output/eval_sample_400.jsonl",
     "n_contracts": 400,
     "class_distribution": {
@@ -79,19 +195,26 @@
       "Risky_Mutable_Proxy": 10
     }
   },
-  "pending_experiments": [
-    {
-      "method": "NFT-GPTScan",
-      "model": "deepseek/deepseek-chat",
-      "status": "not started",
-      "command": "python pipeline/nft_gptscan.py --openai-key KEY --model deepseek/deepseek-chat --data output/eval_sample_400.jsonl --out results/gptscan_deepseek_results.csv"
+  "static_tool_comparison_from_nftdefects_paper": {
+    "source": "NFTDefects paper Table 3 and Section 5.4",
+    "note": "NFTGuard results are on the NFTDefects authors' own labeled dataset, NOT our 400-contract benchmark. Cannot directly compare.",
+    "nftguard_precision_on_own_dataset": {
+      "ERC721_Reentrancy": 0.815,
+      "Unlimited_Minting": 0.977,
+      "Missing_Requirements": 1.000,
+      "Public_Burn": 0.933,
+      "Risky_Mutable_Proxy": 1.000,
+      "overall": 0.926
     },
-    {
-      "method": "NFT-Scan++",
-      "model": "deepseek/deepseek-chat",
-      "status": "not started",
-      "notes": "Requires Slither + solc installed on machine. Script: pipeline/nft_scan_pp.py",
-      "command": "python pipeline/nft_scan_pp.py --openai-key KEY --model deepseek/deepseek-chat --data output/eval_sample_400.jsonl --out results/nftscan_pp_results.csv"
+    "other_static_tools_on_1000_contracts": {
+      "tools_tested": ["Mythril", "Oyente", "Sailfish", "Securify1", "Securify2", "Smartian"],
+      "result": "None could detect any NFT-specific defects. NFTGuard found 14 ERC-721 Reentrancy contracts while all 6 static tools found zero."
     }
-  ]
+  },
+  "next_steps": [
+    "Write paper sections: methodology (Section 3), experiments (Section 4), results analysis (Section 5)",
+    "Key narrative: GPTScan best overall; AugScan-v2 uniquely detects Risky_Mutable_Proxy; complementary blind spots across methods",
+    "Consider NFT-Scan++ run if time permits (pending Slither + solc on pipeline server)"
+  ],
+  "last_updated": "2026-08-27"
 }

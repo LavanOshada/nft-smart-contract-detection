@@ -1,0 +1,49 @@
+{
+  "method": "Slither-only",
+  "model": "none",
+  "version": "v2-version-aware",
+  "n_contracts": 400,
+  "slither_errors": 15,
+  "reentrancy_detected": 206,
+  "elapsed_minutes": 17.1,
+  "macro_f1": 0.1339,
+  "accuracy": 0.32,
+  "per_class": {
+    "ERC721_Reentrancy": {
+      "precision": 0.2039,
+      "recall": 0.9545,
+      "f1": 0.336,
+      "support": 44
+    },
+    "Unlimited_Minting": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 62
+    },
+    "Missing_Requirements": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 73
+    },
+    "Public_Burn": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 37
+    },
+    "Risky_Mutable_Proxy": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 10
+    },
+    "None": {
+      "precision": 0.4433,
+      "recall": 0.4943,
+      "f1": 0.4674,
+      "support": 174
+    }
+  }
+}
