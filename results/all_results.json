@@ -110,6 +110,27 @@
       "notes": "Slither oracle feeds ALL detector findings as structured expert report to every LLM phase (~7.8 API calls/contract vs 69 for NFT-Scan). Key results: ERC721_Reentrancy recall=1.000 (perfect) but precision=0.177 — LLM defers too heavily to Slither's reentrancy signal (206/400 flagged, only 44 true). First method to detect Risky_Mutable_Proxy (F1=0.200; all others=0.000). Public_Burn=0.000 — Slither has no access-control signal for burn functions. Results in results/augscan_v2_results.csv."
     },
     {
+      "method": "NFT-GPTScan (clean input ablation)",
+      "model": "deepseek/deepseek-chat",
+      "model_label": "DeepSeek-V3 — preprocessed contracts",
+      "static": true,
+      "n_contracts": 400,
+      "input_file": "output/eval_sample_400_clean.jsonl",
+      "preprocessing": "Inheritance chain flattened — only top-level contract code retained (parent contracts removed)",
+      "macro_f1": 0.2388,
+      "weighted_f1": 0.3360,
+      "per_class": {
+        "ERC721_Reentrancy":    { "f1": 0.219, "support": 44  },
+        "Unlimited_Minting":    { "f1": 0.133, "support": 62  },
+        "Missing_Requirements": { "f1": 0.205, "support": 73  },
+        "Public_Burn":          { "f1": 0.370, "support": 37  },
+        "Risky_Mutable_Proxy":  { "f1": 0.000, "support": 10  },
+        "None":                 { "f1": 0.505, "support": 174 }
+      },
+      "status": "complete",
+      "notes": "Ablation: same GPTScan pipeline run on preprocessed contracts with inheritance removed. Macro F1 drops from 0.2677 to 0.2388 (-0.029). Unlimited_Minting and Public_Burn show largest drops. CONCLUSION: preprocessing hurts — LLM needs the full inheritance chain to correctly detect vulnerabilities. Removing parent contracts strips the context required for Unlimited_Minting and Public_Burn pattern recognition. Hypothesis that base contracts are noise was incorrect."
+    },
+    {
       "method": "NFT-Scan++",
       "model": "deepseek/deepseek-chat",
       "model_label": "DeepSeek-V3 + Slither",
@@ -147,13 +168,14 @@
   "summary_table": {
     "description": "Macro F1 comparison — all completed experiments, best to worst",
     "rows": [
-      { "rank": 1, "method": "NFT-GPTScan",    "model": "DeepSeek-V3",              "macro_f1": 0.2677, "weighted_f1": 0.3684, "status": "complete" },
-      { "rank": 2, "method": "NFT-GPTScan",    "model": "gpt-4o-mini",              "macro_f1": 0.2461, "weighted_f1": 0.3404, "status": "complete" },
-      { "rank": 3, "method": "NFT-AugScan-v2", "model": "DeepSeek-V3+Slither",     "macro_f1": 0.1978, "weighted_f1": 0.2399, "status": "complete" },
-      { "rank": 4, "method": "NFT-Scan",       "model": "DeepSeek-V3",              "macro_f1": 0.1852, "weighted_f1": 0.2824, "status": "complete" },
-      { "rank": 5, "method": "Slither-only",   "model": "none",                     "macro_f1": 0.1339, "weighted_f1": null,   "status": "complete" },
-      { "rank": 6, "method": "NFT-Scan",       "model": "gpt-4o-mini",              "macro_f1": 0.1078, "weighted_f1": 0.1929, "status": "complete" },
-      { "rank": 7, "method": "NFT-Scan++",     "model": "DeepSeek-V3 + Slither",   "macro_f1": null,   "weighted_f1": null,   "status": "pending"  }
+      { "rank": 1, "method": "NFT-GPTScan",                       "model": "DeepSeek-V3",                         "macro_f1": 0.2677, "weighted_f1": 0.3684, "status": "complete" },
+      { "rank": 2, "method": "NFT-GPTScan",                       "model": "gpt-4o-mini",                         "macro_f1": 0.2461, "weighted_f1": 0.3404, "status": "complete" },
+      { "rank": 3, "method": "NFT-GPTScan (clean input ablation)", "model": "DeepSeek-V3 (preprocessed)",         "macro_f1": 0.2388, "weighted_f1": 0.3360, "status": "complete", "note": "ablation — preprocessing hurts" },
+      { "rank": 4, "method": "NFT-AugScan-v2",                    "model": "DeepSeek-V3+Slither",                 "macro_f1": 0.1978, "weighted_f1": 0.2399, "status": "complete" },
+      { "rank": 5, "method": "NFT-Scan",                          "model": "DeepSeek-V3",                         "macro_f1": 0.1852, "weighted_f1": 0.2824, "status": "complete" },
+      { "rank": 6, "method": "Slither-only",                      "model": "none",                                "macro_f1": 0.1339, "weighted_f1": null,   "status": "complete" },
+      { "rank": 7, "method": "NFT-Scan",                          "model": "gpt-4o-mini",                         "macro_f1": 0.1078, "weighted_f1": 0.1929, "status": "complete" },
+      { "rank": 8, "method": "NFT-Scan++",                        "model": "DeepSeek-V3 + Slither",               "macro_f1": null,   "weighted_f1": null,   "status": "pending"  }
     ]
   },
   "per_class_f1_comparison": {
@@ -179,7 +201,8 @@
     "DeepSeek-V3 consistently outperforms gpt-4o-mini: +8.8% on GPTScan, +71% on NFT-Scan",
     "Slither ablation (novel contribution): NFTDefects paper tested 6 static tools but NOT Slither. Our ablation shows Slither achieves 95.5% recall but 20.4% precision on reentrancy — flags 206/400 contracts. Zero detection on all NFT-specific classes.",
     "Complementary blind spots across methods: GPTScan excels at NFT-specific classes (Public_Burn F1=0.507) but misses reentrancy (0.000); AugScan-v2 detects reentrancy perfectly but struggles with Public_Burn (0.000) and Unlimited_Minting (0.091)",
-    "API efficiency: NFT-AugScan-v2 uses ~7.8 calls/contract vs 69 for NFT-Scan (8.8x reduction) while achieving +6.8% higher macro F1"
+    "API efficiency: NFT-AugScan-v2 uses ~7.8 calls/contract vs 69 for NFT-Scan (8.8x reduction) while achieving +6.8% higher macro F1",
+    "PREPROCESSING ABLATION: Removing the inheritance chain (clean input) drops GPTScan-DeepSeek from macro F1=0.2677 to 0.2388 (-2.9%). Unlimited_Minting and Public_Burn show largest drops — these classes involve functions defined in parent contracts. The LLM needs the full inheritance context; preprocessing is harmful, not helpful."
   ],
   "dataset": {
     "name": "NFTDefects benchmark (stratified sample)",
@@ -216,5 +239,5 @@
     "Key narrative: GPTScan best overall; AugScan-v2 uniquely detects Risky_Mutable_Proxy; complementary blind spots across methods",
     "Consider NFT-Scan++ run if time permits (pending Slither + solc on pipeline server)"
   ],
-  "last_updated": "2026-08-27"
+  "last_updated": "2026-09-01"
 }
